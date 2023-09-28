@@ -29,7 +29,7 @@ function generate(NoOffloors, NoOflifts) {
 
 
 }
-
+// function for creating up and down buttons
 function createButtons(count, parent, total) {
     if (count === 0) {
         const down = document.createElement('button')

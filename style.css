@@ -45,7 +45,65 @@ button {
 .lift {
     width: 80px;
     height: 100px;
-    background: gray;
+    /* background: gray; */
     border: 1px solid black;
     margin: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.lift::after,
+.lift::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: gray;
+    animation-name: left;
+    animation-duration: 4s;
+    animation-timing-function: ease-in;
+}
+
+.lift::before {
+    left: 50%;
+    animation-name: right;
+}
+
+/* created required animation most probably will have create dunamic classes for it */
+@keyframes left {
+    0% {
+        left: 0;
+    }
+
+    25% {
+        left: -12.5%;
+    }
+
+    50% {
+        left: -50%;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes right {
+    0% {
+        left: 50%;
+    }
+
+    25% {
+        left: 72.5%;
+    }
+
+    50% {
+        left: 100%;
+    }
+
+    100% {
+        left: 50%;
+    }
 }
