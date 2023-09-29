@@ -16,6 +16,7 @@ function generate(NoOffloors, NoOflifts) {
     while (floorCount < NoOffloors) {
         const floor = document.createElement('div')
         floor.classList.add('floor')
+        floor.id = floorCount + 1
         floors.appendChild(floor)
         createButtons(floorCount, floor, NoOffloors)
         floorCount++
@@ -35,6 +36,7 @@ function createButtons(count, parent, total) {
         const down = document.createElement('button')
         down.classList.add('down')
         down.innerText = 'down';
+        down.addEventListener('click', liftMove)
         parent.appendChild(down)
     }
     else if (count === total - 1) {
@@ -42,6 +44,7 @@ function createButtons(count, parent, total) {
         const up = document.createElement('button')
         up.classList.add('up')
         up.innerText = 'up';
+        up.addEventListener('click', liftMove)
         parent.appendChild(up)
     }
     else {
@@ -51,10 +54,15 @@ function createButtons(count, parent, total) {
         const up = document.createElement('button')
         up.classList.add('up')
         up.innerText = 'up'
+        down.addEventListener('click', liftMove)
+        up.addEventListener('click', liftMove)
         parent.append(up, down)
     }
 }
 
+function liftMove() {
+
+}
 //function call
 generateBtn.addEventListener('click', (e) => {
     const n = nFloors.value
