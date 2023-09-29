@@ -3,6 +3,7 @@ const nLifts = document.querySelector('.noOfLifts')
 const floors = document.querySelector('.floors')
 const lifts = document.querySelector('.lifts')
 const generateBtn = document.querySelector('.generate')
+const liftsArr = []
 
 
 
@@ -17,6 +18,7 @@ function generate(NoOffloors, NoOflifts) {
         const floor = document.createElement('div')
         floor.classList.add('floor')
         floor.id = floorCount + 1
+        floor.setAttribute('data-floor', NoOffloors - floorCount - 1)
         floors.appendChild(floor)
         createButtons(floorCount, floor, NoOffloors)
         floorCount++
@@ -24,11 +26,11 @@ function generate(NoOffloors, NoOflifts) {
     while (liftCount < NoOflifts) {
         const lift = document.createElement('div')
         lift.classList.add('lift')
+        lift.setAttribute('data-isfree', 'true')
         lifts.appendChild(lift)
+        liftsArr.push(lift)
         liftCount++
     }
-
-
 }
 // function for creating up and down buttons
 function createButtons(count, parent, total) {
@@ -36,7 +38,6 @@ function createButtons(count, parent, total) {
         const down = document.createElement('button')
         down.classList.add('down')
         down.innerText = 'down';
-        down.addEventListener('click', liftMove)
         parent.appendChild(down)
     }
     else if (count === total - 1) {
@@ -44,7 +45,6 @@ function createButtons(count, parent, total) {
         const up = document.createElement('button')
         up.classList.add('up')
         up.innerText = 'up';
-        up.addEventListener('click', liftMove)
         parent.appendChild(up)
     }
     else {
@@ -54,14 +54,36 @@ function createButtons(count, parent, total) {
         const up = document.createElement('button')
         up.classList.add('up')
         up.innerText = 'up'
-        down.addEventListener('click', liftMove)
-        up.addEventListener('click', liftMove)
         parent.append(up, down)
     }
+    document.querySelectorAll('.down').forEach(button => button.addEventListener('click', (e) => {
+        liftMove(e)
+    }))
+    document.querySelectorAll('.up').forEach(button => button.addEventListener('click', (e) => {
+        liftMove(e)
+    }))
 }
 
-function liftMove() {
-
+function liftMove(e) {
+    console.log(e.target.parentElement.getAttribute('data-floor'))
+    const calledFloor = +e.target.parentElement.getAttribute('data-floor')
+    let height = 150 * calledFloor
+    for (lift of liftsArr) {
+        if (lift.getAttribute('data-isfree') === 'true') {
+            lift.setAttribute('data-isfree', 'false')
+            lift.style.transform = `translateY(-${height}px)`
+            lift.style.transition = `transform ${2}s linear`
+            console.log(lift.getAttribute('data-isfree'))
+            setTimeout(() => {
+                lift.setAttribute('data-isfree', 'true')
+                console.log(lift.getAttribute('data-isfree'))
+            }, 2000)
+            break // now lift is in use so just break the loop to not start other lift
+        }
+        else {
+            continue // keep repeating until we dont find available lift
+        }
+    }
 }
 //function call
 generateBtn.addEventListener('click', (e) => {
@@ -69,3 +91,4 @@ generateBtn.addEventListener('click', (e) => {
     const m = nLifts.value
     generate(n, m)
 })
+
