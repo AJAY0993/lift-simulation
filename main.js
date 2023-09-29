@@ -32,6 +32,12 @@ function generate(NoOffloors, NoOflifts) {
         // liftsArr.push(lift)
         liftCount++
     }
+    document.querySelectorAll('.down').forEach(button => button.addEventListener('click', (e) => {
+        liftMove(e)
+    }))
+    document.querySelectorAll('.up').forEach(button => button.addEventListener('click', (e) => {
+        liftMove(e)
+    }))
 }
 // function for creating up and down buttons
 function createButtons(count, parent, total) {
@@ -57,12 +63,7 @@ function createButtons(count, parent, total) {
         up.innerText = 'up'
         parent.append(up, down)
     }
-    document.querySelectorAll('.down').forEach(button => button.addEventListener('click', (e) => {
-        liftMove(e)
-    }))
-    document.querySelectorAll('.up').forEach(button => button.addEventListener('click', (e) => {
-        liftMove(e)
-    }))
+
 }
 
 function liftMove(e) {
@@ -94,10 +95,6 @@ function liftMove(e) {
             }, 1000 * time + 4000)
             break
             // now lift is in use so just break the loop to not start other lift
-        }
-        else if (lift.getAttribute('data-isfree') !== 'false') {
-            console.log('busy')
-            continue
         }
 
     }
