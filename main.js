@@ -3,7 +3,7 @@ const nLifts = document.querySelector('.noOfLifts')
 const floors = document.querySelector('.floors')
 const lifts = document.querySelector('.lifts')
 const generateBtn = document.querySelector('.generate')
-const liftsArr = []
+// const liftsArr = []
 
 
 
@@ -27,8 +27,9 @@ function generate(NoOffloors, NoOflifts) {
         const lift = document.createElement('div')
         lift.classList.add('lift')
         lift.setAttribute('data-isfree', 'true')
+        lift.setAttribute('data-position', 1)
         lifts.appendChild(lift)
-        liftsArr.push(lift)
+        // liftsArr.push(lift)
         liftCount++
     }
 }
@@ -41,7 +42,7 @@ function createButtons(count, parent, total) {
         parent.appendChild(down)
     }
     else if (count === total - 1) {
-        console.log(count, total)
+        // console.log(count, total)
         const up = document.createElement('button')
         up.classList.add('up')
         up.innerText = 'up';
@@ -65,24 +66,40 @@ function createButtons(count, parent, total) {
 }
 
 function liftMove(e) {
-    console.log(e.target.parentElement.getAttribute('data-floor'))
+    const liftsArr = Array.from(document.querySelectorAll('.lift'))
+    // console.log(liftsArr)
+    // console.log(e.target.parentElement.getAttribute('data-floor'))
     const calledFloor = +e.target.parentElement.getAttribute('data-floor')
     let height = 150 * calledFloor
-    for (lift of liftsArr) {
+    for (let lift of liftsArr) {
         if (lift.getAttribute('data-isfree') === 'true') {
             lift.setAttribute('data-isfree', 'false')
+            const liftPosition = +lift.getAttribute('data-position')
+            const time = Math.abs(liftPosition - calledFloor) + 1
+            // console.log('time taken is', time)
             lift.style.transform = `translateY(-${height}px)`
-            lift.style.transition = `transform ${2}s linear`
-            console.log(lift.getAttribute('data-isfree'))
+            lift.style.transition = `transform ${time}s linear`
+            lift.setAttribute('data-position', calledFloor)
+            // console.log(lift.getAttribute('data-isfree'))
+            setTimeout(() => {
+                lift.classList.add('animation')
+                setTimeout(() => {
+                    lift.classList.remove('animation')
+                }, 4000)
+            }, 1000 * time) // door opening closing
+
             setTimeout(() => {
                 lift.setAttribute('data-isfree', 'true')
                 console.log(lift.getAttribute('data-isfree'))
-            }, 2000)
-            break // now lift is in use so just break the loop to not start other lift
+            }, 1000 * time + 4000)
+            break
+            // now lift is in use so just break the loop to not start other lift
         }
-        else {
-            continue // keep repeating until we dont find available lift
+        else if (lift.getAttribute('data-isfree') !== 'false') {
+            console.log('busy')
+            continue
         }
+
     }
 }
 //function call
