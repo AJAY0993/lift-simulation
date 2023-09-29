@@ -78,7 +78,7 @@ function liftMove(e) {
                 lift.setAttribute('data-isfree', 'true')
                 console.log(lift.getAttribute('data-isfree'))
             }, 2000)
-            breaktart // now lift is in use so just break the loop to not start other lift
+            break // now lift is in use so just break the loop to not start other lift
         }
         else {
             continue // keep repeating until we dont find available lift
