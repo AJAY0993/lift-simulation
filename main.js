@@ -117,6 +117,8 @@ function liftMove(e) {
 }
 //function call
 generateBtn.addEventListener('click', (e) => {
+    floors.innerHTML = '';
+    lifts.innerHTML = '';
     const n = nFloors.value
     const m = nLifts.value
     generate(n, m)
